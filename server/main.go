@@ -28,15 +28,15 @@ func main() {
 		os.Exit(-1)
 	}
 
-	server := router.InitRouter()
-	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Redis))
-	router.RegisterAPIs(server)
-	global.GlobalClient.Server = config.Config().Http.Addr
-
 	if err := db.MysqldbInit(config.Config().Mysql); err != nil {
 		logger.Error("mysql db init failed, please check again: %s", err)
 		os.Exit(-1)
 	}
+
+	server := router.InitRouter()
+	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Redis))
+	router.RegisterAPIs(server)
+	global.GlobalClient.Server = config.Config().Http.Addr
 
 	if err := server.Run(config.Config().Http.Addr); err != nil {
 		logger.Fatal("failed to run server")

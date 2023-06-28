@@ -22,7 +22,25 @@ type MysqlManager struct {
 	db       *gorm.DB
 }
 
+func ensureDatabase(conf *config.MysqlDBInfo) {
+	Url = fmt.Sprintf("%s:%s@(%s:%d)/?charset=utf8mb4&parseTime=true",
+		conf.UserName,
+		conf.Password,
+		conf.HostName,
+		conf.Port)
+	db, err := gorm.Open(mysql.Open(Url))
+	if err != nil {
+		logger.Error(err.Error())
+	}
+
+	creatDataBase := "CREATE DATABASE IF NOT EXISTS " + conf.DataBase + " DEFAULT CHARSET utf8 COLLATE utf8_general_ci"
+	db.Exec(creatDataBase)
+}
+
 func MysqldbInit(conf *config.MysqlDBInfo) error {
+	// 检查数据库是否存在，不存在则创建
+	ensureDatabase(conf)
+
 	m := &MysqlManager{
 		ip:       conf.HostName,
 		port:     conf.Port,
@@ -55,6 +73,6 @@ func MysqldbInit(conf *config.MysqlDBInfo) error {
 	db.SetMaxIdleConns(10)
 	db.SetMaxOpenConns(100)
 
-	global.GlobalDB.AutoMigrate()
+	global.GlobalDB.AutoMigrate(&service.RedisExportTarget{})
 	return nil
 }

@@ -8,6 +8,13 @@ import (
 	"openeuler.org/PilotGo/redis-plugin/plugin"
 )
 
+type RedisExportTarget struct {
+	ID        uint   `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
+	UUID      string `json:"uuid"`
+	Status    string `json:"status"` //install or remove
+	UpdatedAt time.Time
+}
+
 func FormatData(cmdResults []*client.CmdResult) ([]string, []interface{}, error) {
 	ret := []interface{}{}
 	monitorTargets := []string{}
