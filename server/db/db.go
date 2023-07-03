@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"gitee.com/openeuler/PilotGo-plugins/sdk/logger"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -48,7 +49,7 @@ func MysqldbInit(conf *config.MysqlDBInfo) error {
 		password: conf.Password,
 		dbname:   conf.DataBase,
 	}
-	Url = fmt.Sprint("%s:%s@(%s:%d)/%s?charset=utf8mb4&parseTime=true",
+	Url = fmt.Sprintf("%s:%s@(%s:%d)/%s?charset=utf8mb4&parseTime=true",
 		m.username,
 		m.password,
 		m.ip,
@@ -73,6 +74,6 @@ func MysqldbInit(conf *config.MysqlDBInfo) error {
 	db.SetMaxIdleConns(10)
 	db.SetMaxOpenConns(100)
 
-	global.GlobalDB.AutoMigrate(&service.RedisExportTarget{})
+	global.GlobalDB.AutoMigrate(&RedisExportTarget{})
 	return nil
 }
