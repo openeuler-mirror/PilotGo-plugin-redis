@@ -8,14 +8,16 @@ import (
 )
 
 type RedisExportTarget struct {
-	ID        uint   `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
-	UUID      string `json:"uuid"`
-	Status    string `json:"status"` //install or remove
-	UpdatedAt time.Time
+	ID          uint   `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
+	MachineUUID string `json:"uuid"`
+	MachineIP   string `json:"ip"`
+	Status      string `json:"status"` //install、remove or error
+	Error       string `json:"error"`
+	UpdatedAt   time.Time
 }
 
 func AddRedisExporter(ret RedisExportTarget) error {
-	if len(ret.UUID) == 0 {
+	if len(ret.MachineUUID) == 0 {
 		return fmt.Errorf("机器不能为空")
 	}
 	return global.GlobalDB.Save(&ret).Error
@@ -23,7 +25,7 @@ func AddRedisExporter(ret RedisExportTarget) error {
 
 func GetRedisExporter() ([]RedisExportTarget, error) {
 	var ret []RedisExportTarget
-	err := global.GlobalDB.Where("status=?", "install").Find(&ret).Error
+	err := global.GlobalDB.Where("status=?", global.StatusInstall).Find(&ret).Error
 	if err != nil {
 		return nil, err
 	}
