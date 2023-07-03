@@ -37,3 +37,35 @@ func UnInstallRedisExporter(c *gin.Context) {
 	}
 	response.Success(c, ret, "卸载成功")
 }
+
+// 重启服务
+func RestartRedisExporter(c *gin.Context) {
+	var param common.Batch
+	if err := c.BindJSON(&param); err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	ret, err := service.Restart(&param)
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.Success(c, ret, "重启成功")
+}
+
+// 停止服务
+func StopRedisExporter(c *gin.Context) {
+	var param common.Batch
+	if err := c.BindJSON(&param); err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	ret, err := service.Stop(&param)
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.Success(c, ret, "停止成功")
+}
+
+// 查询数据库安装情况

@@ -1,8 +1,8 @@
 redis:
-  url: "http://localhost:9120/plugin/Redis"
-  reverseDest: "http://localhost:9121"
+  url: "http://192.168.2.130:9120/plugin/Redis"
+  reverseDest: "http://192.168.2.130:9121"
 http:
-  addr: "localhost:9120"
+  addr: "192.168.2.130:9120"
 log:
   level: debug
   driver: stdout    #可选stdout和file。stdout：输出到终端控制台；file：输出到path下的指定文件。
@@ -10,7 +10,7 @@ log:
   max_file: 1
   max_size: 10485760
 mysql:
-  host: localhost
+  host: 192.168.2.130
   port: 3306
   user: ''
   password: ''

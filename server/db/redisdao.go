@@ -20,12 +20,12 @@ func AddRedisExporter(ret RedisExportTarget) error {
 	if len(ret.MachineUUID) == 0 {
 		return fmt.Errorf("机器不能为空")
 	}
-	return global.GlobalDB.Save(&ret).Error
+	return MySQL().Save(&ret).Error
 }
 
 func GetRedisExporter() ([]RedisExportTarget, error) {
 	var ret []RedisExportTarget
-	err := global.GlobalDB.Where("status=?", global.StatusInstall).Find(&ret).Error
+	err := MySQL().Where("status=?", global.StatusInstall).Find(&ret).Error
 	if err != nil {
 		return nil, err
 	}

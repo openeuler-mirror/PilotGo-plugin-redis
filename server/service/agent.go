@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"gitee.com/openeuler/PilotGo-plugins/sdk/common"
 	"gitee.com/openeuler/PilotGo-plugins/sdk/logger"
 	"gitee.com/openeuler/PilotGo-plugins/sdk/plugin/client"
@@ -38,10 +40,11 @@ func FormatData(cmdResults []*client.CmdResult) ([]string, []db.RedisExportTarge
 func Install(param *common.Batch) ([]db.RedisExportTarget, error) {
 	cmd := "yum install -y redis_exporter && systemctl start redis_exporter"
 
-	cmdResults, err := global.GlobalClient.RunScript(param, cmd)
+	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("cmd results", cmdResults)
 
 	monitorTargets, ret, err := FormatData(cmdResults)
 	if err != nil {
@@ -65,7 +68,7 @@ func Install(param *common.Batch) ([]db.RedisExportTarget, error) {
 
 func UnInstall(param *common.Batch) ([]db.RedisExportTarget, error) {
 	cmd := "systemctl stop redis_exporter && yum autoremove -y redis_exporter"
-	cmdResults, err := global.GlobalClient.RunScript(param, cmd)
+	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
 	if err != nil {
 		return nil, err
 	}
@@ -89,22 +92,47 @@ func UnInstall(param *common.Batch) ([]db.RedisExportTarget, error) {
 	return ret, nil
 }
 
-func Restart(param *common.Batch) error {
-	cmd := "systemctl restart redis_exporter && systemctl status redis_exporter"
-	cmdResults, err := global.GlobalClient.RunScript(param, cmd)
+func Restart(param *common.Batch) ([]db.RedisExportTarget, error) {
+	cmd := "systemctl restart redis_exporter"
+	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	_, _, err = FormatData(cmdResults)
-	return nil
+	ret := []db.RedisExportTarget{}
+	for _, result := range cmdResults {
+		d := db.RedisExportTarget{
+			MachineUUID: result.MachineUUID,
+			MachineIP:   result.MachineIP,
+			Status:      "ok",
+			Error:       "",
+		}
+		if result.RetCode != 0 {
+			d.Status = "重启失败"
+		}
+		ret = append(ret, d)
+	}
+	return ret, nil
 }
 
-func Stop(param *common.Batch) error {
-	cmd := "systemctl stop redis_exporter && systemctl status redis_exporter"
-	cmdResults, err := global.GlobalClient.RunScript(param, cmd)
+func Stop(param *common.Batch) ([]db.RedisExportTarget, error) {
+	cmd := "systemctl stop redis_exporter"
+	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	_, _, err = FormatData(cmdResults)
-	return nil
+
+	ret := []db.RedisExportTarget{}
+	for _, result := range cmdResults {
+		d := db.RedisExportTarget{
+			MachineUUID: result.MachineUUID,
+			MachineIP:   result.MachineIP,
+			Status:      "ok",
+			Error:       "",
+		}
+		if result.RetCode != 0 {
+			d.Status = "停止失败"
+		}
+		ret = append(ret, d)
+	}
+	return ret, nil
 }

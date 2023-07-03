@@ -32,10 +32,9 @@ func main() {
 		logger.Error("mysql db init failed, please check again: %s", err)
 		os.Exit(-1)
 	}
-
 	server := router.InitRouter()
 	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Redis))
-	global.GlobalClient.Server = config.Config().Http.Addr
+	global.GlobalClient.Server = "http://192.168.2.130:8888"
 	router.RegisterAPIs(server)
 
 	if err := server.Run(global.GlobalClient.Server); err != nil {
