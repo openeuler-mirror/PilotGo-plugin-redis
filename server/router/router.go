@@ -21,11 +21,8 @@ func RegisterAPIs(router *gin.Engine) {
 
 	pg := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name)
 	{
-		pg.GET("/query", func(c *gin.Context) {
-			c.Set("query", global.GlobalClient.PluginInfo.ReverseDest)
-			httphandler.InstallRedisExporter(c)
-		})
-
+		pg.POST("/install", httphandler.InstallRedisExporter)
+		pg.POST("/remove", httphandler.UnInstallRedisExporter)
 	}
 
 }

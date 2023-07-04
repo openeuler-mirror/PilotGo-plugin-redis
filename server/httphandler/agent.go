@@ -10,14 +10,13 @@ import (
 // 安装运行
 func InstallRedisExporter(c *gin.Context) {
 	// TODOs
-	var param *common.Batch
-
-	if err := c.BindJSON(param); err != nil {
+	var param common.Batch
+	if err := c.BindJSON(&param); err != nil {
 		response.Fail(c, nil, err.Error())
 		return
 	}
 
-	ret, err := service.Install(param)
+	ret, err := service.Install(&param)
 	if err != nil {
 		response.Fail(c, nil, err.Error())
 		return
@@ -26,12 +25,12 @@ func InstallRedisExporter(c *gin.Context) {
 }
 
 func UnInstallRedisExporter(c *gin.Context) {
-	var param *common.Batch
-	if err := c.BindJSON(param); err != nil {
+	var param common.Batch
+	if err := c.BindJSON(&param); err != nil {
 		response.Fail(c, nil, err.Error())
 		return
 	}
-	ret, err := service.UnInstall(param)
+	ret, err := service.UnInstall(&param)
 	if err != nil {
 		response.Fail(c, nil, err.Error())
 		return

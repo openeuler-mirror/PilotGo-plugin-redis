@@ -35,10 +35,10 @@ func main() {
 
 	server := router.InitRouter()
 	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Redis))
-	router.RegisterAPIs(server)
 	global.GlobalClient.Server = config.Config().Http.Addr
+	router.RegisterAPIs(server)
 
-	if err := server.Run(config.Config().Http.Addr); err != nil {
+	if err := server.Run(global.GlobalClient.Server); err != nil {
 		logger.Fatal("failed to run server")
 	}
 }
