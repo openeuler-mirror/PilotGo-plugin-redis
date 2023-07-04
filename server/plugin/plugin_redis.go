@@ -9,7 +9,7 @@ const Version = "0.0.1"
 
 func Init(conf *config.Redis) *client.PluginInfo {
 	PluginInfo := client.PluginInfo{
-		Name:        "redis",
+		Name:        "Redis",
 		Version:     Version,
 		Description: "redis",
 		Author:      "wubijie",
