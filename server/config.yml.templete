@@ -1,5 +1,5 @@
 redis:
-  url: "http://localhost:8090/plugin/Redis"
+  url: "http://localhost:9120/plugin/Redis"
   reverseDest: "http://localhost:9121"
 http:
   addr: "localhost:9120"
