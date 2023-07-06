@@ -23,11 +23,13 @@ func AddRedisExporter(ret RedisExportTarget) error {
 	return MySQL().Save(&ret).Error
 }
 
+func UpdateStatus(UUID string) error {
+	var ret RedisExportTarget
+	return MySQL().Model(&ret).Where("uuid=?", UUID).Update("status", global.StatusRemove).Error
+}
+
 func GetRedisExporter() ([]RedisExportTarget, error) {
 	var ret []RedisExportTarget
 	err := MySQL().Where("status=?", global.StatusInstall).Find(&ret).Error
-	if err != nil {
-		return nil, err
-	}
-	return ret, nil
+	return ret, err
 }

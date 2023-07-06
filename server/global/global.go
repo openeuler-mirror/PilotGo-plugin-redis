@@ -12,5 +12,5 @@ var (
 const (
 	StatusInstall = "安装"
 	StatusRemove  = "卸载"
-	StatusErroe   = "安装错误"
+	StatusError   = "执行错误"
 )
