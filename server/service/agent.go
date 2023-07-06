@@ -1,20 +1,16 @@
 package service
 
 import (
-	"fmt"
-
 	"gitee.com/openeuler/PilotGo-plugins/sdk/common"
 	"gitee.com/openeuler/PilotGo-plugins/sdk/logger"
 	"gitee.com/openeuler/PilotGo-plugins/sdk/plugin/client"
 
 	"openeuler.org/PilotGo/redis-plugin/db"
 	"openeuler.org/PilotGo/redis-plugin/global"
-	"openeuler.org/PilotGo/redis-plugin/plugin"
 )
 
-func FormatData(cmdResults []*client.CmdResult) ([]string, []db.RedisExportTarget, error) {
+func FormatData(cmdResults []*client.CmdResult) ([]db.RedisExportTarget, error) {
 	ret := []db.RedisExportTarget{}
-	monitorTargets := []string{}
 	for _, result := range cmdResults {
 		d := db.RedisExportTarget{
 			MachineUUID: result.MachineUUID,
@@ -22,38 +18,26 @@ func FormatData(cmdResults []*client.CmdResult) ([]string, []db.RedisExportTarge
 			Status:      "ok",
 			Error:       "",
 		}
-
 		if result.RetCode != 0 {
-			d.Status = global.StatusErroe
+			d.Status = global.StatusError
 			d.Error = result.Stderr
-		} else {
-			// TODO: add or delete redis exporter to prometheus monitor target here
-			// default exporter port :9121
-			monitorTargets = append(monitorTargets, result.MachineIP+":9121")
 		}
-
 		ret = append(ret, d)
 	}
-	return monitorTargets, ret, nil
+	return ret, nil
 }
 
 func Install(param *common.Batch) ([]db.RedisExportTarget, error) {
 	cmd := "yum install -y redis_exporter && systemctl start redis_exporter"
-
 	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("cmd results", cmdResults)
+	ret, err := FormatData(cmdResults)
+	if err != nil {
+		return nil, err
+	}
 
-	monitorTargets, ret, err := FormatData(cmdResults)
-	if err != nil {
-		return nil, err
-	}
-	err = plugin.MonitorTargets(monitorTargets)
-	if err != nil {
-		return nil, err
-	}
 	for _, tm := range ret {
 		if tm.Status == "ok" {
 			tm.Status = global.StatusInstall
@@ -72,21 +56,17 @@ func UnInstall(param *common.Batch) ([]db.RedisExportTarget, error) {
 	if err != nil {
 		return nil, err
 	}
-	monitorTargets, ret, err := FormatData(cmdResults)
+	ret, err := FormatData(cmdResults)
 	if err != nil {
 		return nil, err
 	}
-	err = plugin.MonitorTargets(monitorTargets)
-	if err != nil {
-		return nil, err
-	}
+
 	for _, tm := range ret {
 		if tm.Status == "ok" {
-			tm.Status = global.StatusRemove
-		}
-		err = db.AddRedisExporter(tm)
-		if err != nil {
-			logger.Error(err.Error())
+			err = db.UpdateStatus(tm.MachineUUID)
+			if err != nil {
+				logger.Error(err.Error())
+			}
 		}
 	}
 	return ret, nil
@@ -98,20 +78,8 @@ func Restart(param *common.Batch) ([]db.RedisExportTarget, error) {
 	if err != nil {
 		return nil, err
 	}
-	ret := []db.RedisExportTarget{}
-	for _, result := range cmdResults {
-		d := db.RedisExportTarget{
-			MachineUUID: result.MachineUUID,
-			MachineIP:   result.MachineIP,
-			Status:      "ok",
-			Error:       "",
-		}
-		if result.RetCode != 0 {
-			d.Status = "重启失败"
-		}
-		ret = append(ret, d)
-	}
-	return ret, nil
+	ret, err := FormatData(cmdResults)
+	return ret, err
 }
 
 func Stop(param *common.Batch) ([]db.RedisExportTarget, error) {
@@ -120,19 +88,6 @@ func Stop(param *common.Batch) ([]db.RedisExportTarget, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	ret := []db.RedisExportTarget{}
-	for _, result := range cmdResults {
-		d := db.RedisExportTarget{
-			MachineUUID: result.MachineUUID,
-			MachineIP:   result.MachineIP,
-			Status:      "ok",
-			Error:       "",
-		}
-		if result.RetCode != 0 {
-			d.Status = "停止失败"
-		}
-		ret = append(ret, d)
-	}
-	return ret, nil
+	ret, err := FormatData(cmdResults)
+	return ret, err
 }

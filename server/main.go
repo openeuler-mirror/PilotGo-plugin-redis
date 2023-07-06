@@ -34,11 +34,12 @@ func main() {
 	}
 	server := router.InitRouter()
 	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Redis))
-	//获取方式不对
+	//可用通信的方式获取服务端地址
 	global.GlobalClient.Server = config.Config().Http.Server
 	router.RegisterAPIs(server)
 
 	if err := server.Run(config.Config().Redis.Addr); err != nil {
-		logger.Fatal("failed to run server")
+		logger.Error("failed to run server: %s", err)
+		os.Exit(-1)
 	}
 }
