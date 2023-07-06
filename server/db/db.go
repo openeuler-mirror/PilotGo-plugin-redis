@@ -9,10 +9,9 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 	"openeuler.org/PilotGo/redis-plugin/config"
-	"openeuler.org/PilotGo/redis-plugin/global"
 )
 
-var Url string
+var global_db *gorm.DB
 
 type MysqlManager struct {
 	ip       string
@@ -24,7 +23,7 @@ type MysqlManager struct {
 }
 
 func ensureDatabase(conf *config.MysqlDBInfo) {
-	Url = fmt.Sprintf("%s:%s@(%s:%d)/?charset=utf8mb4&parseTime=true",
+	Url := fmt.Sprintf("%s:%s@(%s:%d)/?charset=utf8mb4&parseTime=true",
 		conf.UserName,
 		conf.Password,
 		conf.HostName,
@@ -49,7 +48,7 @@ func MysqldbInit(conf *config.MysqlDBInfo) error {
 		password: conf.Password,
 		dbname:   conf.DataBase,
 	}
-	Url = fmt.Sprintf("%s:%s@(%s:%d)/%s?charset=utf8mb4&parseTime=true",
+	Url := fmt.Sprintf("%s:%s@(%s:%d)/%s?charset=utf8mb4&parseTime=true",
 		m.username,
 		m.password,
 		m.ip,
@@ -64,7 +63,7 @@ func MysqldbInit(conf *config.MysqlDBInfo) error {
 	if err != nil {
 		return err
 	}
-	global.GlobalDB = m.db
+	global_db = m.db
 
 	var db *sql.DB
 	if db, err = m.db.DB(); err != nil {
@@ -74,6 +73,10 @@ func MysqldbInit(conf *config.MysqlDBInfo) error {
 	db.SetMaxIdleConns(10)
 	db.SetMaxOpenConns(100)
 
-	global.GlobalDB.AutoMigrate(&RedisExportTarget{})
+	global_db.AutoMigrate(&RedisExportTarget{})
 	return nil
+}
+
+func MySQL() *gorm.DB {
+	return global_db
 }
