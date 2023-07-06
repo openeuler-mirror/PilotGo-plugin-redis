@@ -34,10 +34,11 @@ func main() {
 	}
 	server := router.InitRouter()
 	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Redis))
-	global.GlobalClient.Server = "http://192.168.2.130:8888"
+	//获取方式不对
+	global.GlobalClient.Server = config.Config().Http.Server
 	router.RegisterAPIs(server)
 
-	if err := server.Run(global.GlobalClient.Server); err != nil {
+	if err := server.Run(config.Config().Redis.Addr); err != nil {
 		logger.Fatal("failed to run server")
 	}
 }

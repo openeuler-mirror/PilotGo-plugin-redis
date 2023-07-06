@@ -1,8 +1,9 @@
 redis:
   url: "http://192.168.2.130:9120/plugin/Redis"
   reverseDest: "http://192.168.2.130:9121"
-http:
   addr: "192.168.2.130:9120"
+http:
+  server: "http://192.168.2.130:8888"
 log:
   level: debug
   driver: stdout    #可选stdout和file。stdout：输出到终端控制台；file：输出到path下的指定文件。

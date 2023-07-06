@@ -12,10 +12,11 @@ import (
 type Redis struct {
 	URL         string `yaml:"url"`
 	ReverseDest string `yaml:"reverseDest"`
+	Addr        string `yaml:"addr"`
 }
 
 type HttpConf struct {
-	Addr string `yaml:"addr"`
+	Server string `yaml:"server"`
 }
 
 type MysqlDBInfo struct {
