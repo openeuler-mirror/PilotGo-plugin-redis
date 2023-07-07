@@ -1,23 +1,42 @@
 # PilotGo-plugin-redis
 
 #### 介绍
-PilotGo redis plugin to maintain and monitor redis cluster.
+PilotGo-plugin-redis，是一款基于redis_exporter维护和监控redis集群的插件。把通过redis_exporter收集redis的metrics数据（比如uptime、每秒执行命令数、内存利用率等）暴露出来，然后配置Promutheus去抓取redis_exporter暴露出来的数据，实现redis集群的性能监控。
+
+note：PilotGo Redis插件运行依赖PilotGo主平台，如何在PilotGo平台中使用插件，请参考PilotGo平台文档。
 
 #### 软件架构
-软件架构说明
-
+开发工具：go 1.20  
+系统支持：openEuler、麒麟操作系统  
+![Alt text](doc/image2.png)  
 
 #### 安装教程
+##### 安装启动部署  
+    # Download PilotGo-plugin-redis source code：  
+    https://gitee.com/openeuler/PilotGo-plugin-redis.git    
+    # Quick build:
+    cd PilotGo-plugin-redis/server
+    go build -o pilotGo-plugin-redis ./main.go
+    # Modify configuration file：
+    cp config.yml.templete config.yml
+    vim config.yaml
+    # Start-up
+    nohup ./pilotGo-plugin-redis &
+ 
+##### 二次开发部署  
+    # Required before PilotGo application deployment：  
+    go >=1.20  
+    # Server deployment：  
+    1. Rename the config.yaml.templete to config.yaml, and configuration  
+    2. cd PilotGo-plugin-redis/server  
+    3. go run main.go  
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  使用之前确保PilotGo的服务端处于启动状态，并修改config.yml.templete文件的内容，将其重命名为config.yml。  
+2.  启动PilotGo-plugin-redis之后，在PilotGo页面添加插件服务名字和地址。例如：![Alt text](doc/image.png)  
+3.  显示添加成功之后PilotGo侧边的导航栏回出现插件名字。例如：![Alt text](doc/image-1.png) 
 
 #### 参与贡献
 
