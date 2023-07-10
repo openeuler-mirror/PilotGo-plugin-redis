@@ -91,3 +91,16 @@ func Stop(param *common.Batch) ([]db.RedisExportTarget, error) {
 	ret, err := FormatData(cmdResults)
 	return ret, err
 }
+
+func GetRedisExporterIp() ([]string, error) {
+	ret, err := db.GetRedisExporter()
+	if err != nil {
+		return nil, err
+	}
+	var targets []string
+	for _, tm := range ret {
+		target := tm.MachineIP + ":9121"
+		targets = append(targets, target)
+	}
+	return targets, nil
+}
