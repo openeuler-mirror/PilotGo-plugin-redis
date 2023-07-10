@@ -1,6 +1,8 @@
 package httphandler
 
 import (
+	"net/http"
+
 	"gitee.com/openeuler/PilotGo-plugins/sdk/common"
 	"gitee.com/openeuler/PilotGo-plugins/sdk/response"
 	"github.com/gin-gonic/gin"
@@ -69,3 +71,20 @@ func StopRedisExporter(c *gin.Context) {
 }
 
 // 查询数据库安装情况
+func GetTargets(c *gin.Context) {
+	targets, err := service.GetRedisExporterIp()
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	objs := []RedisexporterObject{
+		{
+			Targets: targets,
+		},
+	}
+	c.JSON(http.StatusOK, objs)
+}
+
+type RedisexporterObject struct {
+	Targets []string `json:"targets"`
+}

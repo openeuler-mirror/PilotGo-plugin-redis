@@ -31,5 +31,6 @@ func RegisterAPIs(router *gin.Engine) {
 		pg.POST("/remove", httphandler.UnInstallRedisExporter)
 		pg.POST("/restart", httphandler.RestartRedisExporter)
 		pg.POST("/stop", httphandler.StopRedisExporter)
+		pg.GET("/targets", httphandler.GetTargets)
 	}
 }
