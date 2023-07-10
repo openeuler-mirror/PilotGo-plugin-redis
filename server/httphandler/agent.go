@@ -18,9 +18,9 @@ func InstallRedisExporter(c *gin.Context) {
 		return
 	}
 
-	ret, err := service.Install(&param)
-	if err != nil {
-		response.Fail(c, nil, err.Error())
+	ret, failRet, err := service.Install(&param)
+	if err != nil || failRet != nil {
+		response.Fail(c, failRet, err.Error())
 		return
 	}
 	response.Success(c, ret, "安装成功")
@@ -32,9 +32,9 @@ func UnInstallRedisExporter(c *gin.Context) {
 		response.Fail(c, nil, err.Error())
 		return
 	}
-	ret, err := service.UnInstall(&param)
-	if err != nil {
-		response.Fail(c, nil, err.Error())
+	ret, failRet, err := service.UnInstall(&param)
+	if err != nil || failRet != nil {
+		response.Fail(c, failRet, err.Error())
 		return
 	}
 	response.Success(c, ret, "卸载成功")
