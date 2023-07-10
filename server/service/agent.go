@@ -27,49 +27,51 @@ func FormatData(cmdResults []*client.CmdResult) ([]db.RedisExportTarget, error) 
 	return ret, nil
 }
 
-func Install(param *common.Batch) ([]db.RedisExportTarget, error) {
+func Install(param *common.Batch) ([]db.RedisExportTarget, []db.RedisExportTarget, error) {
 	cmd := "yum install -y redis_exporter && systemctl start redis_exporter"
 	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	ret, err := FormatData(cmdResults)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-
+	var failRet []db.RedisExportTarget
 	for _, tm := range ret {
 		if tm.Status == "ok" {
 			tm.Status = global.StatusInstall
 		}
 		err = db.AddRedisExporter(tm)
 		if err != nil {
+			failRet = append(failRet, tm)
 			logger.Error(err.Error())
 		}
 	}
-	return ret, nil
+	return ret, failRet, nil
 }
 
-func UnInstall(param *common.Batch) ([]db.RedisExportTarget, error) {
+func UnInstall(param *common.Batch) ([]db.RedisExportTarget, []db.RedisExportTarget, error) {
 	cmd := "systemctl stop redis_exporter && yum autoremove -y redis_exporter"
 	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	ret, err := FormatData(cmdResults)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-
+	var failRet []db.RedisExportTarget
 	for _, tm := range ret {
 		if tm.Status == "ok" {
 			err = db.UpdateStatus(tm.MachineUUID)
 			if err != nil {
+				failRet = append(failRet, tm)
 				logger.Error(err.Error())
 			}
 		}
 	}
-	return ret, nil
+	return ret, failRet, nil
 }
 
 func Restart(param *common.Batch) ([]db.RedisExportTarget, error) {

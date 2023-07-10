@@ -17,8 +17,8 @@ type RedisExportTarget struct {
 }
 
 func AddRedisExporter(ret RedisExportTarget) error {
-	if len(ret.MachineUUID) == 0 {
-		return fmt.Errorf("机器不能为空")
+	if len(ret.MachineUUID) == 0 || len(ret.MachineIP) == 0 {
+		return fmt.Errorf("机器uuid和ip都不能为空")
 	}
 	return MySQL().Save(&ret).Error
 }
