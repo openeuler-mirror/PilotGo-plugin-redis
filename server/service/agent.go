@@ -118,6 +118,26 @@ func Stop(param *common.Batch) ([]db.RedisExportTarget, error) {
 	return ret, err
 }
 
+func ServiceStatus(param *common.Batch) ([]db.RedisExportTarget, error) {
+	cmdResults, err := global.GlobalClient.ServiceStatus(param, "redis_exporter")
+	if err != nil {
+		return nil, err
+	}
+
+	ret := []db.RedisExportTarget{}
+	for _, result := range cmdResults {
+		d := db.RedisExportTarget{
+			MachineUUID: result.MachineUUID,
+			MachineIP:   result.MachineIP,
+			Status:      result.ServiceStatus,
+			Error:       "",
+		}
+		ret = append(ret, d)
+	}
+
+	return ret, err
+}
+
 func GetRedisExporterIp() ([]string, error) {
 	ret, err := db.GetRedisExporter()
 	if err != nil {
