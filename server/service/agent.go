@@ -75,22 +75,46 @@ func UnInstall(param *common.Batch) ([]db.RedisExportTarget, []db.RedisExportTar
 }
 
 func Restart(param *common.Batch) ([]db.RedisExportTarget, error) {
-	cmd := "systemctl restart redis_exporter"
-	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
+	_, err := Stop(param)
 	if err != nil {
 		return nil, err
 	}
-	ret, err := FormatData(cmdResults)
+	cmdResults, err := global.GlobalClient.StartService(param, "redis_exporter")
+	if err != nil {
+		return nil, err
+	}
+
+	ret := []db.RedisExportTarget{}
+	for _, result := range cmdResults {
+		d := db.RedisExportTarget{
+			MachineUUID: result.MachineUUID,
+			MachineIP:   result.MachineIP,
+			Status:      result.ServiceStatus,
+			Error:       "",
+		}
+		ret = append(ret, d)
+	}
+
 	return ret, err
 }
 
 func Stop(param *common.Batch) ([]db.RedisExportTarget, error) {
-	cmd := "systemctl stop redis_exporter"
-	cmdResults, err := global.GlobalClient.RunCommand(param, cmd)
+	cmdResults, err := global.GlobalClient.StopService(param, "redis_exporter")
 	if err != nil {
 		return nil, err
 	}
-	ret, err := FormatData(cmdResults)
+
+	ret := []db.RedisExportTarget{}
+	for _, result := range cmdResults {
+		d := db.RedisExportTarget{
+			MachineUUID: result.MachineUUID,
+			MachineIP:   result.MachineIP,
+			Status:      result.ServiceStatus,
+			Error:       "",
+		}
+		ret = append(ret, d)
+	}
+
 	return ret, err
 }
 
