@@ -27,7 +27,7 @@ func AddRedisExporter(ret RedisExportTarget) error {
 
 func UpdateStatus(UUID string) error {
 	var ret RedisExportTarget
-	return MySQL().Model(&ret).Where("uuid=?", UUID).Update("status", global.StatusRemove).Error
+	return MySQL().Model(&ret).Where("machine_uuid=?", UUID).Update("status", global.StatusRemove).Error
 }
 
 func GetRedisExporter() ([]RedisExportTarget, error) {
