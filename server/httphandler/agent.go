@@ -3,8 +3,8 @@ package httphandler
 import (
 	"net/http"
 
-	"gitee.com/openeuler/PilotGo-plugins/sdk/common"
-	"gitee.com/openeuler/PilotGo-plugins/sdk/response"
+	"gitee.com/openeuler/PilotGo/sdk/common"
+	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
 	"openeuler.org/PilotGo/redis-plugin/service"
 )

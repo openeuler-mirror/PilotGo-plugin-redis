@@ -1,9 +1,9 @@
 package service
 
 import (
-	"gitee.com/openeuler/PilotGo-plugins/sdk/common"
-	"gitee.com/openeuler/PilotGo-plugins/sdk/logger"
-	"gitee.com/openeuler/PilotGo-plugins/sdk/plugin/client"
+	"gitee.com/openeuler/PilotGo/sdk/common"
+	"gitee.com/openeuler/PilotGo/sdk/logger"
+	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 
 	"openeuler.org/PilotGo/redis-plugin/db"
 	"openeuler.org/PilotGo/redis-plugin/global"
@@ -89,7 +89,7 @@ func Restart(param *common.Batch) ([]db.RedisExportTarget, error) {
 		d := db.RedisExportTarget{
 			MachineUUID: result.MachineUUID,
 			MachineIP:   result.MachineIP,
-			Status:      result.ServiceStatus,
+			Status:      result.ServiceSample.ServiceActiveStatus,
 			Error:       "",
 		}
 		ret = append(ret, d)
@@ -109,7 +109,7 @@ func Stop(param *common.Batch) ([]db.RedisExportTarget, error) {
 		d := db.RedisExportTarget{
 			MachineUUID: result.MachineUUID,
 			MachineIP:   result.MachineIP,
-			Status:      result.ServiceStatus,
+			Status:      result.ServiceSample.ServiceActiveStatus,
 			Error:       "",
 		}
 		ret = append(ret, d)
@@ -129,7 +129,7 @@ func ServiceStatus(param *common.Batch) ([]db.RedisExportTarget, error) {
 		d := db.RedisExportTarget{
 			MachineUUID: result.MachineUUID,
 			MachineIP:   result.MachineIP,
-			Status:      result.ServiceStatus,
+			Status:      result.ServiceSample.ServiceActiveStatus,
 			Error:       "",
 		}
 		ret = append(ret, d)

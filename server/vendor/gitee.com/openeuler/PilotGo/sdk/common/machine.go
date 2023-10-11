@@ -5,12 +5,12 @@ type MachineNode struct {
 	Department string `json:"department"`
 	IP         string `json:"ip"`
 	CPUArch    string `json:"cpu_arch"`
-	OS         string `json:"os`
+	OS         string `json:"os"`
 	State      int    `json:"state"`
 }
 
 type Batch struct {
-	BatchUUID     string   `json:"batch_id"`
+	BatchId       int      `json:"batch_id"`
 	DepartmentIDs []string `json:"department_ids"`
 	MachineUUIDs  []string `json:"machine_uuids"`
 }
