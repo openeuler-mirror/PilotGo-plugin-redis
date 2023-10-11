@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"gitee.com/openeuler/PilotGo-plugins/sdk/logger"
-	"gitee.com/openeuler/PilotGo-plugins/sdk/plugin/client"
+	"gitee.com/openeuler/PilotGo/sdk/logger"
+	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 	"openeuler.org/PilotGo/redis-plugin/config"
 	"openeuler.org/PilotGo/redis-plugin/db"
 	"openeuler.org/PilotGo/redis-plugin/global"
