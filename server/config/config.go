@@ -2,21 +2,27 @@ package config
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gopkg.in/yaml.v2"
 )
 
-type Redis struct {
-	URL         string `yaml:"url"`
-	ReverseDest string `yaml:"reverseDest"`
-	Addr        string `yaml:"addr"`
+type PluginRedis struct {
+	URL        string `yaml:"url"`
+	PluginType string `yaml:"plugin_type"`
 }
 
-type HttpConf struct {
-	Server string `yaml:"server"`
+type RedisServer struct {
+	Addr string `yaml:"addr"`
+}
+
+type HttpServer struct {
+	Addr string `yaml:"addr"`
+}
+
+type PilotGoServer struct {
+	Addr string `yaml:"addr"`
 }
 
 type MysqlDBInfo struct {
@@ -28,10 +34,12 @@ type MysqlDBInfo struct {
 }
 
 type ServerConfig struct {
-	Redis   *Redis          `yaml:"redis"`
-	Http    *HttpConf       `yaml:"http"`
-	Logopts *logger.LogOpts `yaml:"log"`
-	Mysql   *MysqlDBInfo    `yaml:"mysql"`
+	PluginRedis   *PluginRedis    `yaml:"plugin_redis"`
+	RedisServer   *RedisServer    `yaml:"redis_server"`
+	HttpServer    *HttpServer     `yaml:"http_server"`
+	PilotGoServer *PilotGoServer  `yaml:"pilotgo_server"`
+	Logopts       *logger.LogOpts `yaml:"log"`
+	Mysql         *MysqlDBInfo    `yaml:"mysql"`
 }
 
 const config_file = "./config.yml"
@@ -51,7 +59,7 @@ func Config() *ServerConfig {
 }
 
 func readConfig(file string, config interface{}) error {
-	bytes, err := ioutil.ReadFile(file)
+	bytes, err := os.ReadFile(file)
 	if err != nil {
 		fmt.Printf("open %s failed! err = %s\n", file, err.Error())
 		return err
