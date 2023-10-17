@@ -5,17 +5,18 @@ import (
 	"openeuler.org/PilotGo/redis-plugin/config"
 )
 
-const Version = "0.0.1"
+const Version = "1.0.1"
 
-func Init(conf *config.Redis) *client.PluginInfo {
+func Init(plugin *config.PluginRedis, redis *config.RedisServer) *client.PluginInfo {
 	PluginInfo := client.PluginInfo{
-		Name:        "Redis",
+		Name:        "redis",
 		Version:     Version,
 		Description: "redis",
 		Author:      "wubijie",
 		Email:       "wubijie@kylinos.cn",
-		Url:         conf.URL,
-		ReverseDest: conf.ReverseDest,
+		Url:         plugin.URL,
+		PluginType:  "iframe",
+		ReverseDest: "http://" + redis.Addr,
 	}
 	return &PluginInfo
 }

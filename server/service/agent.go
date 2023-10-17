@@ -3,13 +3,12 @@ package service
 import (
 	"gitee.com/openeuler/PilotGo/sdk/common"
 	"gitee.com/openeuler/PilotGo/sdk/logger"
-	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 
 	"openeuler.org/PilotGo/redis-plugin/db"
 	"openeuler.org/PilotGo/redis-plugin/global"
 )
 
-func FormatData(cmdResults []*client.CmdResult) ([]db.RedisExportTarget, error) {
+func FormatData(cmdResults []*common.CmdResult) ([]db.RedisExportTarget, error) {
 	ret := []db.RedisExportTarget{}
 	for _, result := range cmdResults {
 		d := db.RedisExportTarget{
