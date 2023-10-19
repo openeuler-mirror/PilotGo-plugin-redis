@@ -3,11 +3,11 @@ module openeuler.org/PilotGo/redis-plugin
 go 1.20
 
 require (
-	gitee.com/openeuler/PilotGo/sdk v0.0.0-20231017091904-4321a885c98b
+	gitee.com/openeuler/PilotGo/sdk v0.0.0-20231019033601-0d7cec842fcc
 	github.com/gin-gonic/gin v1.9.1
 	gopkg.in/yaml.v2 v2.4.0
-	gorm.io/driver/mysql v1.5.1
-	gorm.io/gorm v1.25.2
+	gorm.io/driver/mysql v1.5.2
+	gorm.io/gorm v1.25.5
 )
 
 require (
@@ -19,7 +19,7 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.15.5 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
+	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect

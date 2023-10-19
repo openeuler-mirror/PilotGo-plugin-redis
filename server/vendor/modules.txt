@@ -1,4 +1,4 @@
-# gitee.com/openeuler/PilotGo/sdk v0.0.0-20231017091904-4321a885c98b
+# gitee.com/openeuler/PilotGo/sdk v0.0.0-20231019033601-0d7cec842fcc
 ## explicit; go 1.17
 gitee.com/openeuler/PilotGo/sdk/common
 gitee.com/openeuler/PilotGo/sdk/logger
@@ -61,7 +61,7 @@ github.com/go-playground/universal-translator
 # github.com/go-playground/validator/v10 v10.15.5
 ## explicit; go 1.18
 github.com/go-playground/validator/v10
-# github.com/go-sql-driver/mysql v1.7.0
+# github.com/go-sql-driver/mysql v1.7.1
 ## explicit; go 1.13
 github.com/go-sql-driver/mysql
 # github.com/goccy/go-json v0.10.2
@@ -197,11 +197,11 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# gorm.io/driver/mysql v1.5.1
+# gorm.io/driver/mysql v1.5.2
 ## explicit; go 1.14
 gorm.io/driver/mysql
-# gorm.io/gorm v1.25.2
-## explicit; go 1.16
+# gorm.io/gorm v1.25.5
+## explicit; go 1.18
 gorm.io/gorm
 gorm.io/gorm/callbacks
 gorm.io/gorm/clause
