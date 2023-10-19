@@ -1,5 +1,5 @@
 plugin_redis:
-  url: "http://0.0.0.0:9120/plugin/Redis"
+  url: "http://0.0.0.0:9120"
   plugin_type: "iframe"
 redis_server:
   addr: "0.0.0.0:9121"
