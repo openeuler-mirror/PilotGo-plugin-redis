@@ -1,11 +1,14 @@
 package httphandler
 
 import (
+	"fmt"
 	"net/http"
 
 	"gitee.com/openeuler/PilotGo/sdk/common"
+	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 	"gitee.com/openeuler/PilotGo/sdk/response"
 	"github.com/gin-gonic/gin"
+	"openeuler.org/PilotGo/redis-plugin/global"
 	"openeuler.org/PilotGo/redis-plugin/service"
 )
 
@@ -87,4 +90,44 @@ func GetTargets(c *gin.Context) {
 
 type RedisexporterObject struct {
 	Targets []string `json:"targets"`
+}
+
+func EnevtMessge(c *gin.Context) {
+
+	err := global.GlobalClient.ListenEvent([]int{1, 2, 3}, []client.EventCallback{func(e *common.EventMessage) {
+		fmt.Println("1111111111", e.MessageData)
+	}, func(e *common.EventMessage) {
+		fmt.Println("2222222222", e.MessageData)
+	}, func(e *common.EventMessage) {
+		fmt.Println("3333333333", e.MessageData)
+	}})
+
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.Success(c, nil, "event添加成功")
+}
+
+func UNEnevtMessge(c *gin.Context) {
+	err := global.GlobalClient.UnListenEvent([]int{1, 2})
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.Success(c, nil, "event删除成功")
+}
+
+func PublishEvent(c *gin.Context) {
+	msg := common.EventMessage{
+		MessageType: 1,
+		MessageData: "成功结束",
+	}
+
+	err := global.GlobalClient.PublishEvent(msg)
+	if err != nil {
+		response.Fail(c, nil, err.Error())
+		return
+	}
+	response.Success(c, nil, "pubilshevent成功")
 }

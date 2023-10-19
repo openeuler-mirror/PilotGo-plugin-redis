@@ -24,7 +24,7 @@ func main() {
 
 	config.Init()
 	if err := logger.Init(config.Config().Logopts); err != nil {
-		fmt.Printf("logger init failed, please check the config file: %s", err)
+		logger.Error("logger init failed, please check the config file: %s", err)
 		os.Exit(-1)
 	}
 
@@ -32,13 +32,14 @@ func main() {
 		logger.Error("mysql db init failed, please check again: %s", err)
 		os.Exit(-1)
 	}
-	server := router.InitRouter()
-	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().Redis))
-	//可用通信的方式获取服务端地址
-	global.GlobalClient.Server = config.Config().Http.Server
-	router.RegisterAPIs(server)
 
-	if err := server.Run(config.Config().Redis.Addr); err != nil {
+	server := router.InitRouter()
+	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().PluginRedis, config.Config().RedisServer))
+
+	//可用通信的方式获取服务端地址
+	global.GlobalClient.Server = config.Config().PilotGoServer.Addr
+	go router.RegisterAPIs(server)
+	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
 		logger.Error("failed to run server: %s", err)
 		os.Exit(-1)
 	}

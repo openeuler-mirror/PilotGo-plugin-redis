@@ -23,7 +23,6 @@ func InitRouter() *gin.Engine {
 func RegisterAPIs(router *gin.Engine) {
 	//输出插件初始化的信息
 	global.GlobalClient.RegisterHandlers(router)
-
 	pg := router.Group("/plugin/" + global.GlobalClient.PluginInfo.Name)
 	{
 		pg.POST("/install", httphandler.InstallRedisExporter)
@@ -31,5 +30,8 @@ func RegisterAPIs(router *gin.Engine) {
 		pg.POST("/restart", httphandler.RestartRedisExporter)
 		pg.POST("/stop", httphandler.StopRedisExporter)
 		pg.GET("/targets", httphandler.GetTargets)
+		//pg.PUT("/enevtmessage", httphandler.EnevtMessge)
+		//pg.DELETE("/enevtmessage", httphandler.UNEnevtMessge)
+		//pg.PUT("/publishevent", httphandler.PublishEvent)
 	}
 }
