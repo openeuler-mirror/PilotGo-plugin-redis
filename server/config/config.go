@@ -1,10 +1,13 @@
 package config
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
+	con "gitee.com/openeuler/PilotGo/sdk/utils/config"
+
 	"gopkg.in/yaml.v2"
 )
 
@@ -42,16 +45,13 @@ type ServerConfig struct {
 	Mysql         *MysqlDBInfo    `yaml:"mysql"`
 }
 
-const config_file = "./config.yml"
-
 var global_config ServerConfig
+var Config_file string
 
-func Init() {
-	err := readConfig(config_file, &global_config)
-	if err != nil {
-		fmt.Printf("%v", err.Error())
-		os.Exit(-1)
-	}
+func Init() error {
+	flag.StringVar(&Config_file, "conf", "./config.yaml", "plugin-resid configuration file")
+	flag.Parse()
+	return con.Load(Config_file, &global_config)
 }
 
 func Config() *ServerConfig {

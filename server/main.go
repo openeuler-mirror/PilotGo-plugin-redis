@@ -21,8 +21,12 @@ import (
 */
 func main() {
 	fmt.Println("hello redis")
+	err := config.Init()
+	if err != nil {
+		fmt.Println("failed to load configure, exit..", err)
+		os.Exit(-1)
+	}
 
-	config.Init()
 	if err := logger.Init(config.Config().Logopts); err != nil {
 		logger.Error("logger init failed, please check the config file: %s", err)
 		os.Exit(-1)
