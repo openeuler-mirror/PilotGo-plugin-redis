@@ -38,6 +38,14 @@ cloud.google.com/go/storage v1.14.0/go.mod h1:GrKmX003DSIwi9o29oFT7YDnHYwZoctc3f
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 gitee.com/openeuler/PilotGo/sdk v0.0.0-20231019072242-b911c9979e39 h1:UV9/VLrs4pvuu0nVVelFXSrd/75U1+0bZ/SCqxMfL2Y=
 gitee.com/openeuler/PilotGo/sdk v0.0.0-20231019072242-b911c9979e39/go.mod h1:iPlzp8pa9YCXF8oPwFw/QfqP8btwunhv+dnMd8y8KeU=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20231106070541-1f96eb7967c2 h1:MWXqe0NFzw55TGRTl9E8fm4OeTCzoCd/W1IEJOT4lQ8=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20231106070541-1f96eb7967c2/go.mod h1:zEVmY3l48/CvR2kIM3DJpD/jWTG1qkOxRoHJii/D0us=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20231107034041-5710927e351e h1:Opeo2MOq6+MSL0lCwQkKpBtmsgfPgywtcYyJTIDeEns=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20231107034041-5710927e351e/go.mod h1:zEVmY3l48/CvR2kIM3DJpD/jWTG1qkOxRoHJii/D0us=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20231109024612-b4f4c12d9f24 h1:kqNxXxF3a4DJNqsp20WGTQN7VUIRtlL3aLUIuspk0sI=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20231109024612-b4f4c12d9f24/go.mod h1:zEVmY3l48/CvR2kIM3DJpD/jWTG1qkOxRoHJii/D0us=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20231110012917-3eceb3662098 h1:OYoBm/IlipXyqzRztzOq9YNsLbuV8AsY0viV2xpPsik=
+gitee.com/openeuler/PilotGo/sdk v0.0.0-20231110012917-3eceb3662098/go.mod h1:zEVmY3l48/CvR2kIM3DJpD/jWTG1qkOxRoHJii/D0us=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
