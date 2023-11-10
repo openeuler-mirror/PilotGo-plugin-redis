@@ -3,7 +3,7 @@ module openeuler.org/PilotGo/redis-plugin
 go 1.20
 
 require (
-	gitee.com/openeuler/PilotGo/sdk v0.0.0-20231019072242-b911c9979e39
+	gitee.com/openeuler/PilotGo/sdk v0.0.0-20231110012917-3eceb3662098
 	github.com/gin-gonic/gin v1.9.1
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/mysql v1.5.2
