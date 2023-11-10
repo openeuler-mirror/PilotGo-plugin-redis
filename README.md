@@ -31,6 +31,11 @@ note：PilotGo Redis插件运行依赖PilotGo主平台，如何在PilotGo平台�
     2. cd PilotGo-plugin-redis/server  
     3. go run main.go  
 
+#### 补充链接
+1.  [PilotGo使用手册](https://gitee.com/openeuler/docs/tree/master/docs/zh/docs/PilotGo/使用手册.md)
+2.  PilotGo[代码仓](https://gitee.com/openeuler/PilotGo)
+3.  PilotGo[软件包仓](https://gitee.com/src-openeuler/PilotGo)
+
 
 #### 使用说明
 
