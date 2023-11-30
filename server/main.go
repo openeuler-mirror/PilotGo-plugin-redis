@@ -55,7 +55,7 @@ func main() {
 	})
 
 	go router.RegisterAPIs(server)
-	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
+	if err := server.Run(global.GlobalClient.Server()); err != nil {
 		logger.Error("failed to run server: %s", err)
 		os.Exit(-1)
 	}
