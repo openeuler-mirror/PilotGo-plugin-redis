@@ -34,7 +34,41 @@ func ReverseProxyHandler(c *gin.Context) {
 }
 
 func InfoHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, BaseInfo)
+	v, ok := c.Get("__internal__client_instance")
+	if !ok {
+		response.Fail(c, gin.H{"status": false}, "未获取到client值信息")
+		return
+	}
+	client, ok := v.(*Client)
+	if !ok {
+		response.Fail(c, gin.H{"status": false}, "client信息错误")
+		return
+	}
+
+	info := &PluginFullInfo{
+		PluginInfo: *client.PluginInfo,
+		Extentions: client.extentions,
+	}
+
+	c.JSON(http.StatusOK, info)
+}
+
+func BindHandler(c *gin.Context) {
+	port := c.Query("port")
+
+	v, ok := c.Get("__internal__client_instance")
+	if !ok {
+		response.Fail(c, gin.H{"status": false}, "未获取到client值信息")
+		return
+	}
+	client, ok := v.(*Client)
+	if !ok {
+		response.Fail(c, gin.H{"status": false}, "client信息错误")
+		return
+	}
+	client.server = strings.Split(c.Request.RemoteAddr, ":")[0] + ":" + port
+
+	response.Success(c, nil, "bind server success")
 }
 
 func EventHandler(c *gin.Context) {
@@ -69,7 +103,7 @@ func ExtentionsHandler(c *gin.Context) {
 	}
 	client, ok := v.(*Client)
 	if !ok {
-		response.Fail(c, gin.H{"status": false}, "client获取失败")
+		response.Fail(c, gin.H{"status": false}, "client信息错误")
 		return
 	}
 

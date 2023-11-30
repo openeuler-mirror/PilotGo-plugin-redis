@@ -41,9 +41,6 @@ func main() {
 	server := router.InitRouter()
 	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().PluginRedis, config.Config().RedisServer))
 
-	//可用通信的方式获取服务端地址
-	global.GlobalClient.Server = config.Config().PilotGoServer.Addr
-
 	global.GlobalClient.OnGetTags(func(uuids []string) []common.Tag {
 		var tags []common.Tag
 		for _, uuid := range uuids {
