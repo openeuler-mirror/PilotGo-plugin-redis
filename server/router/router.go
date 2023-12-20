@@ -1,6 +1,7 @@
 package router
 
 import (
+	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"github.com/gin-gonic/gin"
 	"openeuler.org/PilotGo/redis-plugin/global"
 	"openeuler.org/PilotGo/redis-plugin/httphandler"
@@ -14,7 +15,7 @@ func InitRouter() *gin.Engine {
 	//创建一个新的http服务器实例，可以添加中间件、路由、处理函数等组件，构建自己的程序
 	router := gin.New()
 	//添加日志中间件
-	//router.Use(logger.LoggerDebug())
+	router.Use(logger.RequestLogger())
 	//添加恢复中间件
 	router.Use(gin.Recovery())
 	return router

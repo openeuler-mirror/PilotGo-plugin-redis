@@ -20,7 +20,7 @@ type RedisServer struct {
 	Addr string `yaml:"addr"`
 }
 
-type PilotGoServer struct {
+type HttpServer struct {
 	Addr string `yaml:"addr"`
 }
 
@@ -33,11 +33,11 @@ type MysqlDBInfo struct {
 }
 
 type ServerConfig struct {
-	PluginRedis   *PluginRedis    `yaml:"plugin_redis"`
-	RedisServer   *RedisServer    `yaml:"redis_server"`
-	PilotGoServer *PilotGoServer  `yaml:"pilotgo_server"`
-	Logopts       *logger.LogOpts `yaml:"log"`
-	Mysql         *MysqlDBInfo    `yaml:"mysql"`
+	PluginRedis *PluginRedis    `yaml:"plugin_redis"`
+	RedisServer *RedisServer    `yaml:"redis_server"`
+	HttpServer  *HttpServer     `yaml:"http_server"`
+	Logopts     *logger.LogOpts `yaml:"log"`
+	Mysql       *MysqlDBInfo    `yaml:"mysql"`
 }
 
 var global_config ServerConfig
