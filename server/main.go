@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"gitee.com/openeuler/PilotGo/sdk/common"
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	"gitee.com/openeuler/PilotGo/sdk/plugin/client"
 	"openeuler.org/PilotGo/redis-plugin/config"
@@ -40,19 +39,6 @@ func main() {
 
 	server := router.InitRouter()
 	global.GlobalClient = client.DefaultClient(plugin.Init(config.Config().PluginRedis, config.Config().RedisServer))
-
-	global.GlobalClient.OnGetTags(func(uuids []string) []common.Tag {
-		var tags []common.Tag
-		for _, uuid := range uuids {
-			tag := common.Tag{
-				UUID: uuid,
-				Type: "1",
-				Data: "lable",
-			}
-			tags = append(tags, tag)
-		}
-		return tags
-	})
 
 	go router.RegisterAPIs(server)
 	if err := server.Run(config.Config().HttpServer.Addr); err != nil {
