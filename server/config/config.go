@@ -2,18 +2,13 @@ package config
 
 import (
 	"flag"
-	"fmt"
-	"os"
 
 	"gitee.com/openeuler/PilotGo/sdk/logger"
 	con "gitee.com/openeuler/PilotGo/sdk/utils/config"
-
-	"gopkg.in/yaml.v2"
 )
 
 type PluginRedis struct {
-	URL        string `yaml:"url"`
-	PluginType string `yaml:"plugin_type"`
+	URL string `yaml:"url"`
 }
 
 type RedisServer struct {
@@ -51,19 +46,4 @@ func Init() error {
 
 func Config() *ServerConfig {
 	return &global_config
-}
-
-func readConfig(file string, config interface{}) error {
-	bytes, err := os.ReadFile(file)
-	if err != nil {
-		fmt.Printf("open %s failed! err = %s\n", file, err.Error())
-		return err
-	}
-
-	err = yaml.Unmarshal(bytes, config)
-	if err != nil {
-		fmt.Printf("yaml Unmarshal %s failed!\n", string(bytes))
-		return err
-	}
-	return nil
 }
